@@ -1,0 +1,150 @@
+
+<html ng-app="MyApp">
+  <head>
+  
+  <title> Things To Do List  </title>
+  
+  
+  <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet'  type='text/css'>
+   <link rel="stylesheet"  type="text/css" href="./CSS/ToDoCss.css">
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+	
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<script>
+var app = angular.module("MyApp", []);
+  app.controller("TodoCtrl", function($scope) {
+ 
+  $scope.markAll = false;
+ 
+  $scope.todos = [];
+  $scope.actualStatus = '';
+  
+  $scope.getTotalTodos = function () {
+    return $scope.todos.length;
+  };
+  
+
+
+  $scope.isTodo = function(){
+      return $scope.todos.length > 0;  
+  }
+
+$scope.hasDone = function() {
+      return ($scope.todos.length != $scope.remaining());
+  }  
+  
+  $scope.addTodo = function () {
+    $scope.todos.push({text:$scope.formTodoText, done:false});
+    $scope.formTodoText = '';
+  
+  $window.alert('hiii');
+     
+        
+  };
+
+
+
+  
+    $scope.clearCompleted = function ()  {
+    var oldTodos = $scope.todos;
+    $scope.todos = [];
+    angular.forEach(oldTodos, function(todo) {
+      if (!todo.done) $scope.todos.push(todo);
+    });
+  };
+
+
+$scope.remaining = function() {
+    var count = 0;
+    angular.forEach($scope.todos, function(todo) {
+      count += todo.done ? 0 : 1;
+    });
+    return count;
+  };
+
+
+ $scope.toggleMarkAll = function() {
+      angular.forEach($scope.todos, function(todo) {
+        todo.done =$scope.markAll;
+      });
+  };
+
+$scope.active = function() {
+    var oldTodos = $scope.todos;
+    $scope.todos = [];
+    angular.forEach(oldTodos, function(todo) {
+      if (!todo.done) $scope.todos.push(todo);
+        
+    });
+     return todos;
+  };
+     $scope.completed = function() {
+    var oldTodos = $scope.todos;
+    $scope.todos = [];
+    angular.forEach(oldTodos, function(todo) {
+      if (todo.done) $scope.todos.push(todo);
+      
+    });
+      return todos;
+  };    
+  
+  
+});
+</script>
+
+
+
+
+    </head>
+
+  <body>
+
+ <div class="todo-wrapper" ng-controller="TodoCtrl">
+    
+<h1 id="h_one">Hello Visitor! ! WELCOME  You've got <span class="emphasis ng-binding">{{remaining()}} </span>  of  <span class="emphasis ng-binding"> {{todos.length}} </span> things to do</h1>
+
+<h1 id="h_two">  Manage your todo list efficiently</h1>
+
+
+      <form>
+       <input id="in" class="add-input" placeholder="The things on my mind. . ." type="text" ng-model="formTodoText" ng-model-instant=""
+	   style="text-align:left;"> 
+	   
+	   <button id="but" class="add-btn" ng-click="addTodo()">Add</button>
+      </form>
+    <section id="sec">
+   <div ng-show="isTodo()">
+          <input id="in2" id="toggle-all" type="checkbox" ng-model="markAll"
+            ng-click="toggleMarkAll()"/>
+          <label id="lb" for="toggle-all">Mark all as complete</label>
+</div>
+
+
+      <ul>
+     <li ng-repeat="todo in todos | filter: {done : actualStatus} ">
+          <input type="checkbox" ng-model="todo.done"/>
+          <span class="done-{{todo.done}}">{{todo.text}}</span>
+        </li>
+      </ul>
+
+</section>
+
+<div  id="div1">
+
+<a id="a1" ng-click="actualStatus='' " href="#/">All</a>
+					
+<a  id="a2"  ng-click="actualStatus = false" href="#/active">Active</a>
+					
+<a  id="a3"  ng-click="actualStatus = true" href="#/completed">Completed</a>
+					
+      <button  class="clear-btn" ng-click="clearCompleted()">Clear completed</button>
+    </div>
+
+</div>
+
+  </body>
+  
+</html>
